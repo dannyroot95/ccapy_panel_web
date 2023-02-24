@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Rutas</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/firestore.js"></script>
+   
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
+  
+  
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" 
+     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" 
+     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+ 
+    <!------->
+    <style>
+        html,body{
+            background-color: rgb(249, 249, 249);
+        }
+
+                #content{
+                  padding: 35px;
+                }
+                hr.solid {
+  border-top: 3px solid #bbb;
+}
+    </style>
+    
+    <center>
+    <div id="content">
+      <h4 style="margin-top: -20px;margin-bottom: 20px;color: #215667;">PLIEGO TARIFARIO DEL SERVICIO PUBLICO DE ELECTRICIDAD (NO INCLUYE IGV)</h4>
+      <div class="input-group mb-3" style="max-width: 100%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-lightning-charge"></i> Precio Unit. S/. /kW.h</span>
+        <input id="price_kwh" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-percent"></i> Intereses Compensatorios</span>
+        <input id="int" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      
+      </div>
+
+      <p></p>
+
+      
+      <hr class="solid">
+
+      <div class="input-group mb-3" style="max-width: 100%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-building-fill"></i> BT5B - Residencial 0 - 30 kw/h</span>
+        <input id="res-30" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar"></i>Cargo fijo</span>
+        <input id="charge-res-30" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      
+      </div>
+      <p></p>
+
+      <p></p>
+      <div class="input-group mb-3" style="max-width: 100%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-building-fill"></i> BT5B - Residencial 31 - 140 kw/h</span>
+        <input id="res-31" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar"></i>Cargo fijo</span>
+        <input id="charge-res-31" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <p></p>
+
+      <p></p>
+      <div class="input-group mb-3" style="max-width: 100%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-building-fill"></i> BT5B - Residencial > 140 kw/h</span>
+        <input id="res-140" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar"></i>Cargo fijo</span>
+        <input id="charge-res-140" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <p></p>
+
+      <div class="input-group mb-3" style="max-width: 100%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-house-fill"></i> BT5B - No Residencial</span>
+        <input id="no_res" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar"></i>Cargo fijo</span>
+        <input id="charge_no_res" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+     
+      </div>
+      <p></p>
+
+      <hr class="solid">
+
+      <p></p>
+
+      <div class="input-group mb-3" style="max-width: 70%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-lightbulb-fill"></i> Alicuota AP</span>
+        <input id="ali" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <p></p>
+
+      <div class="input-group mb-3" style="max-width: 70%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-gear-fill"></i> Mantenimiento y Reposcición</span>
+        <input id="mant" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <p></p>
+
+      <div class="input-group mb-3" style="max-width: 70%;">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i> Ley general de electrificación rural 28749</span>
+        <input id="law" type="number" class="form-control" placeholder="0.0" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <button class="btn btn-success" onclick="saveMetrics()">Guardar datos</button>
+
+    </div></center>
+
+</head>
+<body>
+    
+ 
+
+    
+<script src="/js/config.js"></script>
+<script src="/dashboard/assets/js/s_admin/metrics.js"></script>
+
+</body>
+</html>

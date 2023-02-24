@@ -1,0 +1,69 @@
+.loader {
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #215667;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+
+  .smallLoader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #215667;
+    width: 40px;
+    height: 40px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+
+   /* Safari */
+   @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .example-open .modal-backdrop {
+    background-color:rgb(255, 255, 255);
+    }
+    .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+      background: rgba(250, 250, 250, 0.24);
+    }
+    .swal2-popup {
+      background: #215667;
+      color: #f1f1f1;
+    }
+    .swal2-styled.swal2-confirm {
+        background-color: #ffffff;
+        color: #000;
+    }
+    .swal2-icon.swal2-warning {
+        border-color: #fff7f0;
+        color: #ffffff;
+    }
+    .swal2-icon.swal2-error {
+        border-color: #fff7f0;
+        color: #ffffff;
+    }
+    .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+        background-color: #f0e5e5;
+    }
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #fafafa;
+        opacity: 1;
+    }
+    .modal-content {
+      background-color: #f4f4f4;
+      border-color: #215667;
+      border-width: 1px;
+    }
+  
+    ion-icon {
+  color: white;
+  }
