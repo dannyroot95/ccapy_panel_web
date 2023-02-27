@@ -34,6 +34,9 @@ function login(){
         document.getElementById("email").disabled = true
         document.getElementById("password").disabled = true
         document.getElementById("btn-login").disabled = true
+
+        document.getElementById("loader").style = "display:block;"
+        document.getElementById("btn-login").style = "display:none;"
         
 
         firebase.auth().signInWithEmailAndPassword(email, password).then((response) => {
@@ -44,16 +47,27 @@ function login(){
 
               if (snapshot.exists) {
 
-                localStorage.setItem("currentUser",uid)
-                localStorage.setItem("currentUserData",JSON.stringify(snapshot.data()))
-                
-                window.location.href = "/dashboard"
+                if(snapshot.data().type != "client"){
+                  localStorage.setItem("currentUser",uid)
+                  localStorage.setItem("currentUserData",JSON.stringify(snapshot.data()))
+                  window.location.href = "/dashboard"
+                }else{
+                  document.getElementById("email").disabled = false
+                  document.getElementById("password").disabled = false
+                  document.getElementById("btn-login").disabled = false
+                  document.getElementById("loader").style = "display:none;"
+                  document.getElementById("btn-login").style = "display:block;"
+                  Swal.fire(
+                    'Error!',
+                    'Usuario no permitido!',
+                    'error'
+                  )
+                }
 
               }else{
                 console.log("no existe")
               }
 
-             
 
             }).catch((error) =>{
               alert("Error : "+error)
@@ -70,8 +84,11 @@ function login(){
             document.getElementById("email").disabled = false
             document.getElementById("password").disabled = false
             document.getElementById("btn-login").disabled = false
+            document.getElementById("loader").style = "display:none;"
+            document.getElementById("btn-login").style = "display:block;"
   
             if(errorCode == "auth/user-not-found"){
+              
               Swal.fire(
                   'Error!',
                   'Este usuario no existe!',

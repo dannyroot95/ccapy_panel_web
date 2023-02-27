@@ -8,6 +8,9 @@ if (localStorage.getItem("currentUser") !== null) {
 function logout() {
   localStorage.removeItem("currentUser");
   localStorage.removeItem("metrics");
+  localStorage.removeItem("data_analysis")
+  localStorage.removeItem("staff")
+  localStorage.removeItem("devices")
   window.location.reload();
 }
 

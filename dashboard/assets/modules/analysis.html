@@ -6,6 +6,7 @@
     <title>Inicio</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" charset="utf-8"></script>  
@@ -15,23 +16,22 @@
 
 </head>
 
-<body>
+<body style="background-color: #fcfefc;">
 
-    <div id="loaderDiv" style="display: none;">
+    <div id="loaderDiv">
         <center><div style="text-align: center;">
-
-            <center><div class="loader" style="margin-top: -40px;"></div></center>
+            <img src="/dashboard/assets/imgs/energia.gif" style="width: 30%;">
             <br><label>Obteniendo datos... </label>
         </div></center>
      </div> 
 
-    <div id="getData">
+    <div id="getData" style="display:none;">
 
     <!-- ======================= Cards ================== -->
     <div class="cardBox">
         <div class="card">
             <div>
-                <div class="numbers" id="numCows">-</div>
+                <div class="numbers" id="numDev">-</div>
                 <div class="cardName">Dispositivos</div>
             </div>
 
@@ -42,7 +42,7 @@
 
         <div class="card">
             <div>
-                <div class="numbers" id="locations">-</div>
+                <div class="numbers" id="registers">-</div>
                 <div class="cardName">Registros</div>
             </div>
 
@@ -54,7 +54,7 @@
 
         <div class="card">
             <div>
-                <div class="numbers" id="numAreas">-</div>
+                <div class="numbers" id="users">-</div>
                 <div class="cardName">Usuarios</div>
             </div>
 
@@ -65,7 +65,7 @@
 
         <div class="card">
             <div>
-                <div class="numbers" id="numReports">-</div>
+                <div class="numbers" id="numKwh">-</div>
                 <div class="cardName">Total kWh</div>
             </div>
 
@@ -74,10 +74,16 @@
             </div>
         </div>
     </div>
+
+    <div id="myChart" class="chart--container">
+    </div>
+
          
      
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/dashboard/assets/js/s_admin/analysis.js"></script>
  
 </div>
 

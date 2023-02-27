@@ -179,13 +179,19 @@ function urlModulo(url) {
 
 function listaModulos_A(modulo, contenedor) {
   if ("#dashboard" == modulo) {
-    contenedor.innerHTML = urlModulo("assets/modules/admin/dashboard.html");
+    contenedor.innerHTML = urlModulo("assets/modules/dashboard.html");
     document.getElementById("start").innerText = "Inicio";
-  } else if ("#transfers" == modulo) {
-    contenedor.innerHTML = urlModulo("assets/modules/admin/transfers.html");
-    document.getElementById("start").innerText = "Transferencias";
-  } else if ("#" == modulo) {
-    contenedor.innerHTML = "<br>&nbsp;&nbsp;Muy Pronto...";
+  } else if ("#devices" == modulo) {
+    contenedor.innerHTML = urlModulo("assets/modules/devices.html");
+    document.getElementById("start").innerText = "Dispositivos";
+  } else if ("#metrics" == modulo) {
+    contenedor.innerHTML = urlModulo("assets/modules/metrics.html");
+    document.getElementById("start").innerText = "Métricas";
+  } else if ("#analysis" == modulo) {
+    contenedor.innerHTML = urlModulo("assets/modules/analysis.html");
+    document.getElementById("start").innerText = "Análisis general";
+  }else if ("#" == modulo) {
+    contenedor.innerHTML = "<br>&nbsp;&nbsp;Bye bye...";
   } else {
     contenedor.innerHTML = urlModulo("assets/modules/dashboard.html");
   }
@@ -206,9 +212,9 @@ function listaModulos_SA(modulo, contenedor) {
     document.getElementById("start").innerText = "Métricas";
   } else if ("#analysis" == modulo) {
     contenedor.innerHTML = urlModulo("assets/modules/analysis.html");
-    document.getElementById("start").innerText = "Análisis";
+    document.getElementById("start").innerText = "Análisis general";
   }else if ("#" == modulo) {
-    contenedor.innerHTML = "<br>&nbsp;&nbsp;Muy Pronto...";
+    contenedor.innerHTML = "<br>&nbsp;&nbsp;Bye bye...";
   } else {
     contenedor.innerHTML = urlModulo("assets/modules/dashboard.html");
   }
