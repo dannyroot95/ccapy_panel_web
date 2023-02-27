@@ -14,7 +14,7 @@ if (user.type == "root") {
               <img src="/dashboard/assets/imgs/cowlogo.png"" width="40px" height="40px" style="margin-top: 12px;" />
             </span>
             <span class="title2"><strong>Ccapy</strong>
-              <p id="typeUser">Super Admin</p>
+              <p id="typeUser">Monitoring Home</p>
             </span>
           </a>
         </li>
@@ -102,8 +102,8 @@ if (user.type == "root") {
 
               <img src="/dashboard/assets/imgs/cowlogo.png"" width="40px" height="40px" style="margin-top: 12px;" />
             </span>
-            <span class="title2"><strong>Cow Manager</strong>
-              <p id="typeUser">Admin</p>
+            <span class="title2"><strong>Ccapy</strong>
+              <p id="typeUser">Monitoring Home</p>
             </span>
           </a>
         </li>
@@ -121,56 +121,41 @@ if (user.type == "root") {
         </script>
 
         <li>
-          <a href="#users">
-            <span class="icon">
-              <ion-icon name="people-outline"></ion-icon>
-            </span>
-            <span class="title">Usuarios</span>
-          </a>
-        </li>
-        <script>;
-          window.open("#users", "_self");
-        </script>
-
-
-        <li>
-          <a href="#branchs">
+          <a href="#devices">
             <span class="icon">
             <ion-icon name="apps-outline"></ion-icon>
             </span>
-            <span class="title">Area de pastoreo</span>
+            <span class="title">Dispositivos</span>
           </a>
         </li>
-
+        
         <li>
-          <a href="#transfers">
+          <a href="#metrics">
             <span class="icon">
             <ion-icon name="locate-outline"></ion-icon>
             </span>
-            <span class="title">Monitoreo</span>
+            <span class="title">Métricas</span>
           </a>
         </li>
         <script>;
-          window.open("#transfers", "_self");
+          window.open("#metrics", "_self");
         </script>
 
         <li>
-          <a href="#checkout">
+          <a href="#analysis">
             <span class="icon">
             <ion-icon name="git-branch-outline"></ion-icon>
             </span>
-            <span class="title">Rutas</span>
+            <span class="title">Análisis</span>
           </a>
         </li>
+        <script>;
+          window.open("#analysis", "_self");
+        </script>
 
-        <li>
-          <a href="#reports">
-            <span class="icon">
-              <ion-icon name="bar-chart-outline"></ion-icon>
-            </span>
-            <span class="title">Reportes</span>
-          </a>
-        </li>
+        <script>;
+        window.open("#dashboard", "_self");
+      </script>
 
         <li>
           <a href="#" onclick="logout()">
@@ -181,7 +166,7 @@ if (user.type == "root") {
           </a>
         </li>
     `
-  );
+    );
 } 
 
 function urlModulo(url) {
@@ -214,7 +199,7 @@ function listaModulos_SA(modulo, contenedor) {
     contenedor.innerHTML = urlModulo("assets/modules/users.html");
     document.getElementById("start").innerText = "Usuarios";
   } else if ("#devices" == modulo) {
-    contenedor.innerHTML = urlModulo("assets/modules/device.html");
+    contenedor.innerHTML = urlModulo("assets/modules/devices.html");
     document.getElementById("start").innerText = "Dispositivos";
   } else if ("#metrics" == modulo) {
     contenedor.innerHTML = urlModulo("assets/modules/metrics.html");

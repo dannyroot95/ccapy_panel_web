@@ -68,7 +68,6 @@ function saveUser(){
     var value = type.options[type.selectedIndex].value
    
     let resultdni = ""
-    let resultEmail = ""
 
     if(email != "" && password != "" && dni != "" && phone != "" && value != "0" && fullname != ""){
 
@@ -375,7 +374,7 @@ function deleteUser(id){
 
 function createScriptDatatable(){
 
-  $('#tb-students').DataTable({
+  $('#tb-staff').DataTable({
     language: {
           "decimal": "",
           "emptyTable": "No hay información",

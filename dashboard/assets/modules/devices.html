@@ -1,0 +1,197 @@
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<script src="/js/app.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"  
+ integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" 
+ integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--datatable!-->
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+ <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+ 
+ <link rel="stylesheet" href="/dashboard/assets/css/global.css">
+
+
+<body>
+
+<div style="margin-top: 5px;padding: 15px;">
+
+<h4><ion-icon name="cloud-upload-outline" style="color: #215667;"></ion-icon>&nbsp;Lista de dispositivos sincronizados&nbsp;&nbsp;
+<button style="font-size: 16px;padding: 8px;background-color: #215667;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
++ Agregar manualmente &nbsp;
+</button> 
+<label style="width: 10%;"></label>
+
+</h4>&nbsp;&nbsp;
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover" id="tb-staff">
+<thead>
+  <tr style="background-color: #215667;color: #f1f1f1;">
+    <th scope="col" style="width: 10px;">#</th>
+    <th scope="col" style="width: 100px;">Serie ID</th>
+    <th scope="col" style="width: 50px;">Fecha de facturación</th>
+    <th scope="col" style="width: 50px;">Tipo de hogar</th>
+    <th scope="col" style="width: 50px;">Lectura de medidor</th>
+  </tr>
+</thead>
+<tbody id="tbody">
+</tbody>
+</table>
+
+</div>
+
+<center><div class="loader" style="display:none" id="loader"></div></center>
+
+<!--MODAL-->
+
+<div class="modal fade" id="registerModal" style="margin-top: -20px;" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title">Agregar dispositivo</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+
+    <div class="input-group">
+      <span class="input-group-text">N° de serie</span>
+      <input type="tel" maxlength="7"  class="form-control" id="chip">
+    </div>
+
+    <br>
+    <div class="input-group">
+      <span class="input-group-text">Lectura de medidor</span>
+      <input type="tel" class="form-control" id="med">
+    </div>
+
+    <br>
+    <div class="input-group">
+      <span class="input-group-text">Lectura de factura actual</span>
+      <input type="tel" class="form-control" id="invoice-med">
+    </div>
+   
+    <br>
+    <div class="input-group">
+      <span class="input-group-text">Fecha de facturación</span>
+      <input type="date" class="form-control" id="date-invoice">
+    </div>
+
+    <br>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect01">Tipo de hogar</label>
+      <select class="form-select" id="inputGroupSelect01">
+        <option value="0" selected>Elija...</option>
+        <option value="Residencial">Residencial</option>
+        <option value="No - Residencial">No - Residencial</option>
+      </select>
+    </div>
+
+   
+  </div>
+
+    <div class="modal-footer">
+    <button type="button" class="btn btn-primary" id="btn-save" style="background-color: #215667;border-color: #215667;" onclick="saveDevice()">Guardar</button>  
+    </div>
+
+</div>
+</div>
+</div>
+
+
+<!--END MODAL-->
+
+
+<!--MODAL-->
+
+<div class="modal fade" id="detailModal" style="margin-top: -20px;" tabindex="-1" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+  <div class="modal-header">
+   
+  <h5 class="modal-title" id="detail-chip"></h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" style="margin-top: -10px;">
+
+ <label><b>Datos en tiempo real</b></label>
+  <br>
+  <div class="input-group" style="margin-top: 10px;">
+    <span class="input-group-text">Voltaje</span>
+    <input id="detail-voltage" class="form-control">
+    <span class="input-group-text">Corriente</span>
+    <input id="detail-current" class="form-control">
+  </div>
+
+  
+  <p></p>
+  <div class="input-group">
+    <span class="input-group-text">Energía consumida</span>
+    <input id="detail-energy" class="form-control">
+  </div>
+
+  <p></p>
+  <div class="input-group">
+    <span class="input-group-text">Potencia</span>
+    <input id="detail-power" class="form-control">
+    <span class="input-group-text">Frecuencia</span>
+    <input id="detail-frequency" class="form-control">
+  </div>
+
+
+  <p></p>
+  <div class="input-group">
+    <span class="input-group-text">Factor de potencia</span>
+    <input id="detail-factor" class="form-control">
+  </div>
+
+  <p></p>
+  <div class="input-group">
+    <span class="input-group-text">Fecha</span>
+    <input id="detail-time" class="form-control">
+    <span class="input-group-text">Factura</span>
+    <input id="detail-invoice" class="form-control">
+  </div>
+
+  <p></p>
+  <div class="input-group">
+    <span class="input-group-text">Lectura de medidor</span>
+    <input id="detail-med" class="form-control">
+  </div>
+  <div class="input-group">
+    <span class="input-group-text">Tipo de hogar</span>
+    <input id="detail-home" class="form-control">
+  </div>
+ 
+
+</div>
+<div class="modal-footer" id="footer">
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!--END MODAL-->
+<div id="createDataTable">
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+</div>
+<script src="/dashboard/assets/js/configBootstrapDevice.js"></script>
+<script src="/js/config.js"></script>
+<script src="/dashboard/assets/js/s_admin/devices.js"></script>
+
+</body>
