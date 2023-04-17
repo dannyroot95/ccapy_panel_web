@@ -229,7 +229,7 @@ function charts(){
               ],
             },
             scaleR: {
-              values: '0:60:5',
+              values: '0:500:100',
               aperture: 130,
               center: {
                 borderColor: '#23211E',
@@ -465,7 +465,7 @@ function charts(){
               },
             },
             scaleY2: {
-              values: '0:60:5',
+              values: '0:500:100',
               item: {
                 bold: true,
                 fontColor: '#E2D51A',
