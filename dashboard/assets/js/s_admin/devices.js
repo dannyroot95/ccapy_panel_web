@@ -1,17 +1,21 @@
 var dt = firebase.database()
 var filterType = ""
+var report = []
 
 let cacheSt = localStorage.getItem("devices")
 let pCache = JSON.parse(cacheSt)
 
+//deleteD()
+//add()
 
 if(pCache == null){
   document.getElementById("loader").style = "display:block;margin-top:14px;"
   getDevicesFromDatabase()
 }else{
 
+  document.getElementById("loader").style = "display:none;"
   getDevicesFromCache()
-  console.log(pCache)
+  //console.log(pCache)
 
 }
 
@@ -24,37 +28,41 @@ function getDevicesFromDatabase(){
         document.getElementById("tbody").innerHTML = ""
         snapshot.forEach(array => {
             let key = array.key
-            let currentData = array.val().current_data
-            let config = array.val().config
-            
-            let parameters = {
-                actual_med_read : config.actual_med_read,
-                day_invoice : config.day_invoice,
-                type_home : config.type_home,
-                key : key,
-                ampere : currentData.ampere,
-                chip_id : currentData.chip_id,
-                energy : currentData.energy,
-                frequency : currentData.frequency,
-                power_factor : currentData.power_factor,
-                time : currentData.time,
-                voltage : currentData.voltage,
-                watts : currentData.watts
+
+            if(key != "Location"){
+
+              let currentData = array.val().current_data
+              let config = array.val().config
+              
+              let parameters = {
+                  actual_med_read : config.actual_med_read,
+                  day_invoice : config.day_invoice,
+                  type_home : config.type_home,
+                  key : key,
+                  ampere : currentData.ampere,
+                  chip_id : currentData.chip_id,
+                  energy : currentData.energy,
+                  frequency : currentData.frequency,
+                  power_factor : currentData.power_factor,
+                  time : currentData.time,
+                  voltage : currentData.voltage,
+                  watts : currentData.watts
+              }
+              
+              list.push(parameters)
+  
+              let data = `
+              <tr style="cursor: pointer" onclick="setData('${encodeURIComponent(JSON.stringify(parameters))}')">
+  
+              <td><strong>${ctx++}</strong></td>
+              <td>${parameters.key}</td>
+              <td>${parameters.day_invoice}</td>
+              <td>${parameters.type_home}</td>
+              <td>${parameters.energy+parseInt(parameters.actual_med_read)+" kw/h"}</td>
+              </tr>`
+              $(data).appendTo("#tbody")
             }
-            
-            list.push(parameters)
 
-            let data = `
-            <tr style="cursor: pointer" onclick="setData('${encodeURIComponent(JSON.stringify(parameters))}')">
-
-            <td><strong>${ctx++}</strong></td>
-            <td>${parameters.key}</td>
-            <td>${parameters.day_invoice}</td>
-            <td>${parameters.type_home}</td>
-            <td>${parameters.energy+parseInt(parameters.actual_med_read)+" kw/h"}</td>
-            </tr>`
-            $(data).appendTo("#tbody")
-       
         });
         createScriptDatatable()
         localStorage.setItem("devices",JSON.stringify(list))
@@ -200,8 +208,8 @@ function createScriptDatatable(){
 
     document.getElementById("footer").innerHTML = ""
     document.getElementById("footer").innerHTML = `
-    <button type="button" class="btn btn-danger" onclick="deleteDevice('${device.key}')">Eliminar dispositivo</button>
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>`
+    <button type="button" id="btn-delete" class="btn btn-danger" onclick="deleteDevice('${device.key}')">Eliminar dispositivo</button>
+    <button type="button" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>`
 
     dt.ref("devices/"+device.key+"/current_data").on('value', (snapshot) => {
 
@@ -278,3 +286,140 @@ function createScriptDatatable(){
     var time = date + '/' + month + '/' + year;
     return time;
   }
+
+
+
+  /*function deleteD(){
+
+    dt.ref("devices/4578453/registers").once('value', (snapshot) => {
+
+      snapshot.forEach(array => {
+        let key = array.key
+        let energy = array.val().energy
+        let time = array.val().time
+      
+        //console.log(time)
+
+        if(time > 1686639600) {
+          dt.ref("devices/4578453/registers/"+key).remove()
+          console.log(key)
+        }
+      
+
+      })
+
+
+    })
+
+  }*/
+
+  //martes, 13 de junio de 2023 21:21:37  -> agregar a partir de este dia -NXkka4_ApTTKUgcDJIR
+
+  function add(){
+   
+    dt.ref("devices/4578453/registers").push({
+      ampere:0.618,
+      chip_id:4578453,
+      energy:94.321,
+      frequency:60,
+      power_factor:0.62,
+      time:1686959400,
+      voltage:242.4,
+      watts:92.4}
+      )
+    
+  }
+
+  function reports(){
+    let month = document.getElementById("inputGroupSelectMonth").value
+    let id = document.getElementById("detail-chip").innerHTML
+    id = id.split("SERIE DE DISPOSITIVO : ")[1]
+
+   if(month != 0){
+
+    report = []
+      document.getElementById("s-loader").style = "display:block;"
+      document.getElementById("btn-export").disabled = true
+      document.getElementById("btn-close").disabled = true
+      document.getElementById("btn-delete").disabled = true
+
+    dt.ref("devices/"+id+"/config/").once('value', (snapshot) => {
+      
+      let day = (snapshot.val().day_invoice).split("/")
+      var fechaActual = new Date();
+      var añoActual = fechaActual.getFullYear();
+     
+      const afterDay = `${añoActual}-${((parseInt(month)-1) < 10 ? "0" + (parseInt(month)-1) : (parseInt(month)-1))}-${day[0]}`;
+      const beforeDay = `${añoActual}-${((parseInt(month)) < 10 ? "0" + (parseInt(month)) : (parseInt(month)))}-${day[0]}`;
+
+      let init = afterDay+" 18:00"
+      let final = beforeDay+" 23:59"
+      var timestamp1 = new Date(init).getTime() / 1000;
+      var timestamp2 = new Date(final).getTime() / 1000;
+      
+      console.log(init+" "+final)
+
+      dt.ref("devices/"+id+"/registers").once('value', (snapshot) => {
+        snapshot.forEach(v => {
+          let time = v.val().time
+          if(time > timestamp1 && time < timestamp2){
+            let data = {
+              "id_chip":v.val().chip_id,
+              "Voltaje":v.val().voltage,
+              "Corriente":v.val().ampere,
+              "Kwh":v.val().energy,
+              "Frecuencia":v.val().frequency,
+              "Factor de potencia":v.val().power_factor,
+              "Potencia":v.val().watts
+            }
+            report.push(data)
+          }
+          
+        });
+
+        exportToExcel()
+
+      })
+
+
+      })
+
+    }else{
+      Swal.fire(
+        'Oops!',
+        'Seleccione un mes!',
+        'warning'
+      )
+    }
+
+  }
+
+
+
+  function exportToExcel(){
+
+    document.getElementById("s-loader").style = "display:none;"
+    document.getElementById("btn-export").disabled = false
+    document.getElementById("btn-close").disabled = false
+    document.getElementById("btn-delete").disabled = false
+
+    Swal.fire({
+        title: 'En breves se descargará el archivo!',
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+        },
+      })
+  
+    let xls = new XlsExport(report, 'reporte');
+    xls.exportToXLS(`reporte_cappy.xls`)
+
+  }
+
+  $(document).ready(function() {
+    $('#detailModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    });
+  });

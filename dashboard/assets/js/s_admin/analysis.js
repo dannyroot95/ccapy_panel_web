@@ -577,7 +577,10 @@ function charts(){
         snapshot.forEach(element => {
 
             let d = element.key
-            let d1 = 0
+
+            if(d != "Location"){
+              
+              let d1 = 0
         
             dt.ref("devices").child(d).get().then((shot) => {
 
@@ -670,6 +673,8 @@ function charts(){
                 }
              
              });
+
+            }
 
         });
       })

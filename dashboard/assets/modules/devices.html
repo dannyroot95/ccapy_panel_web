@@ -18,7 +18,8 @@
  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
- 
+ <script src="https://cdn.jsdelivr.net/npm/xlsexport@1.5.2/xls-export.es5.min.js"></script>
+
  <link rel="stylesheet" href="/dashboard/assets/css/global.css">
 
 
@@ -116,13 +117,13 @@
 
 <!--MODAL-->
 
-<div class="modal fade" id="detailModal" style="margin-top: -20px;" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="detailModal" style="margin-top: -20px;" data-backdrop="static" tabindex="-1" role="dialog"s>
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
   <div class="modal-header">
    
   <h5 class="modal-title" id="detail-chip"></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
 </div>
 <div class="modal-body" style="margin-top: -10px;">
 
@@ -174,6 +175,25 @@
     <span class="input-group-text">Tipo de hogar</span>
     <input id="detail-home" class="form-control">
   </div>
+
+  <p></p>
+  <label><b>Generar reporte</b></label>
+  <p></p>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelectMonth">Seleccione el mes : </label>
+    </div>
+    <select class="custom-select" id="inputGroupSelectMonth">
+      <option value="0" disabled selected>Seleccione...</option>
+      <option value="4">Abril</option>
+      <option value="5">Mayo</option>
+      <option value="6">Junio</option>
+    </select>
+    <button id="btn-export" onclick="reports()" class="btn btn-success">
+      <ion-icon style="color: #fff;" name="document-outline"></ion-icon>&nbsp;Generar</button>
+      &nbsp;&nbsp; <div><div id="s-loader" style="display: none;" class="smallLoader"></div></div>    
+  </div>
+
  
 
 </div>
